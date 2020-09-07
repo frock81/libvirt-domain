@@ -12,9 +12,8 @@ class TestXmlFilter(unittest.TestCase):
             'uuid': {},
             'title': {'required': False},
             'description': {'required': False},
-            'description': {'required': False},
-            'memory': {},
-            'currentMemory': {},
+            'memory': {'__attributes__': ['unit']},
+            'currentMemory': {'__attributes__': ['unit']},
             'vcpu': {
                 '__attributes__': ['current']
             },
