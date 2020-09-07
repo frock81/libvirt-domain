@@ -4,7 +4,7 @@
   <title>cn-croquidigital2</title>
   <memory unit="KiB">8388608</memory>
   <currentMemory unit="KiB">8388608</currentMemory>
-  <vcpu placement="static">2</vcpu>
+  <vcpu placement="static" current="1">2</vcpu>
   <os>
     <type arch="x86_64" machine="pc-i440fx-2.11">hvm</type>
     <bootmenu enable="yes"/>

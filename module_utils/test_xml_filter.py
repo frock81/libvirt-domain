@@ -56,5 +56,16 @@ class TestXmlFilter(unittest.TestCase):
         result = self.xml_tree.xpath(query)
         self.assertFalse(result)
 
+    def test_vcpu_attributes(self):
+        node_name = 'vcpu'
+        query = '/domain/{0}'.format(node_name)
+        result = self.xml_tree.xpath(query)
+        self.assertEqual(len(result), 1)
+        vcpu_node = result[0]
+        vcpu_current_attribute = vcpu_node.get('current')
+        self.assertEqual(vcpu_current_attribute, '1')
+        vcpu_placement_attribute = vcpu_node.get('placement')
+        self.assertFalse(vcpu_placement_attribute)
+
 if __name__ == '__main__':
     unittest.main()
