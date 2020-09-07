@@ -30,6 +30,9 @@ class TestXmlFilter(unittest.TestCase):
             xml_string = file.read()
         xml_filter = XmlFilter(filter_spec=self.FILTER_SPEC,
             input_xml=xml_string)
+        xml_tree = etree.fromstring(xml_filter.output_xml)
+        self.assertEqual(xml_tree.tag, 'domain')
+        self.assertEqual(xml_tree.get('type'), 'kvm')
 
 if __name__ == '__main__':
     unittest.main()
