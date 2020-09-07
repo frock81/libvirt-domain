@@ -24,15 +24,19 @@ class TestXmlFilter(unittest.TestCase):
         }
     }
 
-    def test_domain(self):
+    @classmethod
+    def setUpClass(cls):
         xml_file = 'domain.xml'
         with open(xml_file, 'r') as file:
             xml_string = file.read()
-        xml_filter = XmlFilter(filter_spec=self.FILTER_SPEC,
+        xml_filter = XmlFilter(filter_spec=cls.FILTER_SPEC,
             input_xml=xml_string)
-        xml_tree = etree.fromstring(xml_filter.output_xml)
-        self.assertEqual(xml_tree.tag, 'domain')
-        self.assertEqual(xml_tree.get('type'), 'kvm')
+        cls.xml_tree = etree.fromstring(xml_filter.output_xml)
+
+    def test_domain(self):
+        self.assertEqual(self.xml_tree.tag, 'domain')
+        self.assertEqual(self.xml_tree.get('type'), 'kvm')
+        self.assertFalse(self.xml_tree.get('id'))
 
 if __name__ == '__main__':
     unittest.main()

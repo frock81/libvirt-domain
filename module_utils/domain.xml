@@ -1,4 +1,4 @@
-<domain type="kvm">
+<domain type="kvm" id="1">
   <name>vm-algol</name>
   <uuid>bfbd7e3a-8b7e-5591-a73f-831f4e162627</uuid>
   <title>cn-croquidigital2</title>
