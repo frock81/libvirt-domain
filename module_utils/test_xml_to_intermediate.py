@@ -9,6 +9,7 @@ from xml_to_intermediate import XmlToIntermediate
 class TestXmlToIntermediate(unittest.TestCase):
 
     NODE_NAME = 'domain'
+    NODE_ATTRIBUTES = {'key1': 'value1', 'key2': 'value2'}
 
     @classmethod
     def setUpClass(cls):
@@ -29,11 +30,10 @@ class TestXmlToIntermediate(unittest.TestCase):
         self.assertEqual(element['element_name'], self.NODE_NAME)
 
     def test_get_node_attributes(self):
-        node_attributes = {'key1': 'value1', 'key2': 'value2'}
-        node = etree.Element(self.NODE_NAME, **node_attributes)
+        node = etree.Element(self.NODE_NAME, **self.NODE_ATTRIBUTES)
         node_attributes_gotten = (self.xml_to_intermediate
             ._XmlToIntermediate__get_node_attributes(node=node))
-        self.assertEqual(node_attributes, node_attributes_gotten)
+        self.assertEqual(self.NODE_ATTRIBUTES, node_attributes_gotten)
 
     # def test_parse_attributes(self):
     #     self.NODE_NAME = 'domain'
