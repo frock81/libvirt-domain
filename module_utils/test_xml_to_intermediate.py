@@ -8,12 +8,15 @@ from xml_to_intermediate import XmlToIntermediate
 
 class TestXmlToIntermediate(unittest.TestCase):
 
-    def test_parse_name(self):
+    @classmethod
+    def setUpClass(cls):
         xml_string = '<domain />'
-        xml_to_intermediate = XmlToIntermediate(xml_string=xml_string)
+        cls.xml_to_intermediate = XmlToIntermediate(xml_string=xml_string)
+
+    def test_parse_name(self):
         node_name = 'name'
         node = etree.Element(node_name)
-        element = xml_to_intermediate._XmlToIntermediate__parse_name(node=node)
+        element = self.xml_to_intermediate._XmlToIntermediate__parse_name(node=node)
         self.assertIsInstance(element, dict)
         self.assertIn('element_name', element)
         self.assertEqual(element['element_name'], node_name)
