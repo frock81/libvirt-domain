@@ -13,7 +13,7 @@ class XmlToIntermediate:
         self.__parse_node(node=self.__xml_tree)
 
     def __parse_node(self, node, children_list=None):
-        element = self.__parse_name(node=node)
+        element = self.__parse_name(name=self.__get_node_name(node=node))
         self.__parse_text(node=node, element=element)
         self.__parse_attributes(node=node, element=element)
         self.__parse_children(node=node, parent_element=element)
@@ -21,6 +21,12 @@ class XmlToIntermediate:
             self.__representation = element
             return
         children_list.append(element)
+
+    def __get_node_name(self, node):
+        return node.tag
+
+    def __parse_name(self, name):
+        return {'element_name': name}
 
     def __parse_text(self, node, element):
         if node.text:
@@ -45,9 +51,6 @@ class XmlToIntermediate:
             for child in node:
                 self.__parse_node(node=child,
                     children_list=parent_element['children'])
-
-    def __parse_name(self, node):
-        return {'element_name': node.tag}
 
     @property
     def representation(self):
