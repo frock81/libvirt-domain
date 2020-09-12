@@ -28,6 +28,9 @@ class XmlToIntermediate:
     def __parse_name(self, name):
         return {'element_name': name}
 
+    def __get_node_attributes(self, node):
+        return dict(node.attrib)
+
     def __parse_text(self, node, element):
         if node.text:
             element['text'] = node.text
