@@ -11,7 +11,7 @@ from libvirt_domain import LibvirtDomain
 from libvirt_connector import LibvirtConnector
 from xml_to_intermediate_converter import XmlToIntermediateConverter
 
-class TestXmlToIntermediateConverter(unittest.TestCase):
+class TestXmlToIntermediate(unittest.TestCase):
 
     XML_DOMAIN_NAME = 'vm-foo'
     XML_DOMAIN_UUID = '6404f873-9fae-5bd4-b141-5d1b1bd27df9'

@@ -1,6 +1,6 @@
 from lxml import etree
 
-class XmlToIntermediateConverter:
+class XmlToIntermediate:
     """Convert a XML to an intermediate representation
 
     Attributes:
