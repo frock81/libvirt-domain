@@ -158,7 +158,8 @@ class TestXmlToIntermediate(unittest.TestCase):
             '       <b />'
             '   </nested_children>'
             '</root>')
-        xml_tree = etree.fromstring(node_xml_string)
+        parser = etree.XMLParser(remove_blank_text=True)
+        xml_tree = etree.fromstring(node_xml_string, parser)
         representation = (self.xml_to_intermediate
             ._XmlToIntermediate__create_node_representation(node=xml_tree))
         self.assertIsInstance(representation, dict)
