@@ -31,6 +31,25 @@ class XmlToIntermediate:
     def __get_node_attributes(self, node):
         return dict(node.attrib)
 
+    def __parse_attributes_dictionary(self, attributes_dictionary):
+        """Parse an attributes dictionary
+
+        Should pass an attributes dictionary and receive a sorted list
+
+        Args:
+            attributes_dictionary (dict): an attributes dictionary with
+                the key being the attribute name and the value being
+                the attribute value.
+        Returns:
+            list: a list of dictionaries with 'attribute_name' and
+                'attribute_value' keys, sorted by the attribute name.
+        """
+        attributes_list = []
+        for key, value in attributes_dictionary.items():
+            item = {'attribute_name': key, 'attribute_value': value}
+            attributes_list.append(item)
+        return sorted(attributes_list, key=lambda x: x['attribute_name'])
+
     def __parse_text(self, node, element):
         if node.text:
             element['text'] = node.text
