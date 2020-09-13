@@ -22,6 +22,11 @@ class TestXmlToIntermediate(unittest.TestCase):
         'attribute_name': 'key2',
         'attribute_value': 'value2'
     }]
+    XML_STRING = ('<root>'
+        '   <child1 />'
+        '   <child2 />'
+        '   <child3 />'
+        '</root>')
 
     @classmethod
     def setUpClass(cls):
@@ -82,6 +87,14 @@ class TestXmlToIntermediate(unittest.TestCase):
         self.assertIn('text', element)
         self.assertIsInstance(element['text'], str)
         self.assertEqual(element['text'], self.NODE_TEXT)
+
+    def test_get_node_children(self):
+        xml_tree = etree.fromstring(self.XML_STRING)
+        node_children = (self.xml_to_intermediate
+            ._XmlToIntermediate__get_node_children(node=xml_tree))
+        self.assertIsInstance(node_children, list)
+        self.assertEqual(len(node_children), 3)
+        self.assertEqual(node_children[0].tag, 'child1')
 
     # def test_child(self):
 

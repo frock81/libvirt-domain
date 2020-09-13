@@ -63,6 +63,9 @@ class XmlToIntermediate:
             element['text'] = text
         return element
 
+    def __get_node_children(self, node):
+        return list(node)
+
     def __parse_text(self, node, element):
         if node.text:
             element['text'] = node.text
