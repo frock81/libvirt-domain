@@ -108,6 +108,13 @@ class TestXmlToIntermediate(unittest.TestCase):
         self.assertEqual(len(node_children), 3)
         self.assertEqual(node_children[0].tag, 'child1')
 
+    def test_get_empty_node_children(self):
+        node = etree.Element('root')
+        node_children = (self.xml_to_intermediate
+            ._XmlToIntermediate__get_node_children(node=node))
+        self.assertIsInstance(node_children, list)
+        self.assertFalse(node_children)
+
     def test_add_element_to_children_list(self):
         element = copy.deepcopy(self.ELEMENT)
         children_list = []
@@ -151,9 +158,9 @@ class TestXmlToIntermediate(unittest.TestCase):
             '       <b />'
             '   </nested_children>'
             '</root>')
-        node_tree = etree.fromstring(node_xml_string)
+        xml_tree = etree.fromstring(node_xml_string)
         representation = (self.xml_to_intermediate
-            ._XmlToIntermediate__create_node_representation(node=node_tree))
+            ._XmlToIntermediate__create_node_representation(node=xml_tree))
         self.assertIsInstance(representation, dict)
         self.assertIn('element_name', representation)
         self.assertEqual(representation['element_name'], 'root')

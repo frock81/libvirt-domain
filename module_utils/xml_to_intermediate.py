@@ -71,7 +71,8 @@ class XmlToIntermediate:
         return list(node)
 
     def __add_element_to_children_list(self, element, children_list):
-        children_list.append(element)
+        if element is not None:
+            children_list.append(element)
         return children_list
 
     def __sort_children_list(self, children_list):
@@ -82,7 +83,8 @@ class XmlToIntermediate:
         parent_element,
         children_list
     ):
-        parent_element['children'] = children_list
+        if children_list:
+            parent_element['children'] = children_list
 
     def __parse_attributes(self, node, element):
         node_attributes = self.__get_node_attributes(node=node)
@@ -94,15 +96,13 @@ class XmlToIntermediate:
 
     def __parse_children(self, node, element):
         node_children = self.__get_node_children(node=node)
-        children_list = []
+        element_children_list = []
         for child_node in node_children:
             child_element = self.__create_node_representation(node=child_node)
             self.__add_element_to_children_list(element=child_element,
-                children_list=children_list)
-        sorted_children_list = []
-        if children_list:
-            sorted_children_list = self.__sort_children_list(
-                children_list=children_list)
+                children_list=element_children_list)
+        sorted_children_list = self.__sort_children_list(
+            children_list=element_children_list)
         self.__add_children_list_to_parent_element(parent_element=element,
             children_list=sorted_children_list)
 
