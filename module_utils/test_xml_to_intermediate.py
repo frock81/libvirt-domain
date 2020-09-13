@@ -24,8 +24,10 @@ class TestXmlToIntermediate(unittest.TestCase):
     }]
     XML_STRING = ('<root>'
         '   <child1 />'
-        '   <child2 />'
-        '   <child3 />'
+        '   <child2>'
+        '       Child2 text.'
+        '   </child2>'
+        '   <child3 interisting="yes" />'
         '</root>')
 
     @classmethod
