@@ -28,6 +28,10 @@ class XmlToIntermediate:
     def __parse_name(self, name):
         return {'element_name': name}
 
+    def __create_base_element(self, node):
+        node_name = self.__get_node_name(node=node)
+        return self.__parse_name(name=node_name)
+
     def __get_node_attributes(self, node):
         return dict(node.attrib)
 

@@ -49,6 +49,14 @@ class TestXmlToIntermediate(unittest.TestCase):
         self.assertIn('element_name', element)
         self.assertEqual(element['element_name'], self.NODE_NAME)
 
+    def test_create_base_element(self):
+        node = etree.Element(self.NODE_NAME)
+        element = (self.xml_to_intermediate
+            ._XmlToIntermediate__create_base_element(node=node))
+        self.assertIsInstance(element, dict)
+        self.assertIn('element_name', element)
+        self.assertEqual(element['element_name'], self.NODE_NAME)
+
     def test_get_node_attributes(self):
         node = etree.Element(self.NODE_NAME, **self.NODE_ATTRIBUTES)
         node_attributes_gotten = (self.xml_to_intermediate
