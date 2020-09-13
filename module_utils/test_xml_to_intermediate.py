@@ -141,7 +141,23 @@ class TestXmlToIntermediate(unittest.TestCase):
         self.assertEqual(len(element['children']), 1)
         self.assertEqual(element['children'][0]['element_name'], 'child1')
 
-    # def test_tree(self):
+    def test_create_node_representation(self):
+        node_xml_string = ('<root>'
+            '   <z_child z_attrib="foo" a_attrib="bar" />'
+            '   <a_child>Some random text.</a_child>'
+            '   <nested_children>'
+            '       <c />'
+            '       <a />'
+            '       <b />'
+            '   </nested_children>'
+            '</root>')
+        node_tree = etree.fromstring(node_xml_string)
+        representation = (self.xml_to_intermediate
+            ._XmlToIntermediate__create_node_representation(node=node_tree))
+        self.assertIsInstance(representation, dict)
+        self.assertIn('element_name', representation)
+        self.assertEqual(representation['element_name'], 'root')
+        self.assertIn('children', representation)
 
 if __name__ == '__main__':
     unittest.main()

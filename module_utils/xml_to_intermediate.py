@@ -10,17 +10,17 @@ class XmlToIntermediate:
 
     def __init__(self, xml_string):
         self.__xml_tree = etree.fromstring(xml_string)
-        self.__parse_node(node=self.__xml_tree)
+        # self.__parse_node(node=self.__xml_tree)
 
-    def __parse_node(self, node, children_list=None):
-        element = self.__parse_name(name=self.__get_node_name(node=node))
-        self.__parse_text(node=node, element=element)
-        self.__parse_attributes(node=node, element=element)
-        self.__parse_children(node=node, parent_element=element)
-        if children_list is None:
-            self.__representation = element
-            return
-        children_list.append(element)
+    # def __parse_node(self, node, children_list=None):
+    #     element = self.__create_base_element(node=node)
+    #     self.__parse_text(node=node, element=element)
+    #     self.__parse_attributes(node=node, element=element)
+    #     self.__parse_children(node=node, parent_element=element)
+    #     if children_list is None:
+    #         self.__representation = element
+    #         return
+    #     children_list.append(element)
 
     def __get_node_name(self, node):
         return node.tag
@@ -84,29 +84,57 @@ class XmlToIntermediate:
     ):
         parent_element['children'] = children_list
 
-    def __parse_text(self, node, element):
-        if node.text:
-            element['text'] = node.text
-
     def __parse_attributes(self, node, element):
-        attributes_list = []
-        for attribute_name, attribute_value in node.items():
-            if attribute_value:
-                attributes_list.append({
-                    'attribute_name': attribute_name,
-                    'attribute_value': attribute_value
-                })
-        if attributes_list:
-            element['attributes'] = attributes_list
+        node_attributes = self.__get_node_attributes(node=node)
+        attributes_list = self.__parse_attributes_dictionary(
+            attributes_dictionary=node_attributes)
+        element = self.__add_attributes_to_element(element=element,
+            attributes_list=attributes_list)
+        return element
 
-    def __parse_children(self, node, parent_element):
-        # If it has children (I know, not intuitive)
-        if len(node):
-            if not parent_element['children']:
-                parent_element['children'] = []
-            for child in node:
-                self.__parse_node(node=child,
-                    children_list=parent_element['children'])
+    def __parse_children(self, node, element):
+        node_children = self.__get_node_children(node=node)
+        children_list = []
+        for child_node in node_children:
+            child_element = self.__create_node_representation(node=child_node)
+            self.__add_element_to_children_list(element=child_element,
+                children_list=children_list)
+        sorted_children_list = []
+        if children_list:
+            sorted_children_list = self.__sort_children_list(
+                children_list=children_list)
+        self.__add_children_list_to_parent_element(parent_element=element,
+            children_list=sorted_children_list)
+
+    def __create_node_representation(self, node):
+        element = self.__create_base_element(node=node)
+        element = self.__parse_attributes(node=node, element=element)
+        element = self.__parse_children(node=node, element=element)
+        return element
+
+    # def __parse_text(self, node, element):
+    #     if node.text:
+    #         element['text'] = node.text
+
+    # def __parse_attributes(self, node, element):
+    #     attributes_list = []
+    #     for attribute_name, attribute_value in node.items():
+    #         if attribute_value:
+    #             attributes_list.append({
+    #                 'attribute_name': attribute_name,
+    #                 'attribute_value': attribute_value
+    #             })
+    #     if attributes_list:
+    #         element['attributes'] = attributes_list
+
+    # def __parse_children(self, node, parent_element):
+    #     # If it has children (I know, not intuitive)
+    #     if len(node):
+    #         if not parent_element['children']:
+    #             parent_element['children'] = []
+    #         for child in node:
+    #             self.__parse_node(node=child,
+    #                 children_list=parent_element['children'])
 
     @property
     def representation(self):
