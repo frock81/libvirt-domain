@@ -10,6 +10,7 @@ class TestXmlToIntermediate(unittest.TestCase):
 
     NODE_NAME = 'node_name'
     NODE_ATTRIBUTES = {'key1': 'value1', 'key2': 'value2', 'a_key': 'a_value'}
+    ELEMENT = {'element_name': NODE_NAME}
     ELEMENT_ATTRIBUTES = [{
         'attribute_name': 'a_key',
         'attribute_value': 'a_value'
@@ -43,6 +44,7 @@ class TestXmlToIntermediate(unittest.TestCase):
         node = etree.Element(self.NODE_NAME, **self.NODE_ATTRIBUTES)
         node_attributes_gotten = (self.xml_to_intermediate
             ._XmlToIntermediate__get_node_attributes(node=node))
+        self.assertIsInstance(node_attributes_gotten, dict)
         self.assertEqual(self.NODE_ATTRIBUTES, node_attributes_gotten)
 
     def test_parse_attributes_dictionary(self):
@@ -55,7 +57,14 @@ class TestXmlToIntermediate(unittest.TestCase):
         self.assertEqual(attributes_sorted_list, self.ELEMENT_ATTRIBUTES)
 
     def test_add_attributes_to_element(self):
-        pass
+        element = (self.xml_to_intermediate
+            ._XmlToIntermediate__add_attributes_to_element(element=self.ELEMENT,
+            attributes_list=self.ELEMENT_ATTRIBUTES))
+        self.assertIsInstance(element, dict)
+        self.assertIn('attributes', element)
+        self.assertIsInstance(element['attributes'], list)
+        self.assertEqual(len(element['attributes']),
+            len(self.ELEMENT_ATTRIBUTES))
 
     # def test_child(self):
 

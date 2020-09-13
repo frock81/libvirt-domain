@@ -50,6 +50,10 @@ class XmlToIntermediate:
             attributes_list.append(item)
         return sorted(attributes_list, key=lambda x: x['attribute_name'])
 
+    def __add_attributes_to_element(self, element, attributes_list):
+        element['attributes'] = attributes_list
+        return element
+
     def __parse_text(self, node, element):
         if node.text:
             element['text'] = node.text
