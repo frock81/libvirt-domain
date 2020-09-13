@@ -109,7 +109,19 @@ class TestXmlToIntermediate(unittest.TestCase):
         self.assertEqual(len(children_list), 1)
         self.assertEqual(children_list[0], element)
 
-    # def test_sort_children_list
+    def test_sort_children_list(self):
+        children_list = []
+        first_element = {'element_name': 'banana', 'element_value': '6'}
+        second_element = {'element_name': 'orange', 'element_value': '7'}
+        third_element = {'element_name': 'apple', 'element_value': '8'}
+        children_list.append(first_element)
+        children_list.append(second_element)
+        children_list.append(third_element)
+        new_children_list = (self.xml_to_intermediate._XmlToIntermediate__sort_children_list(
+            children_list=children_list))
+        self.assertEqual(new_children_list[0]['element_name'], 'apple')
+        self.assertEqual(new_children_list[1]['element_name'], 'banana')
+        self.assertEqual(new_children_list[2]['element_name'], 'orange')
 
     # def test_add_children_list_to_parent_element
 

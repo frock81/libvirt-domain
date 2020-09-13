@@ -70,6 +70,9 @@ class XmlToIntermediate:
         children_list.append(element)
         return children_list
 
+    def __sort_children_list(self, children_list):
+        return sorted(children_list, key=lambda x: x['element_name'])
+
     def __parse_text(self, node, element):
         if node.text:
             element['text'] = node.text
