@@ -167,6 +167,36 @@ class TestXmlToIntermediate(unittest.TestCase):
         self.assertEqual(representation['element_name'], 'root')
         self.assertIn('children', representation)
 
+    def test_representation_attribute(self):
+        node_xml_string = ('<root>'
+            '   <z_child z_attrib="foo" a_attrib="bar" />'
+            '   <a_child>Some random text.</a_child>'
+            '   <nested_children>'
+            '       <c />'
+            '       <a />'
+            '       <b />'
+            '   </nested_children>'
+            '</root>')
+        xml_to_intermediate = XmlToIntermediate(xml_string=node_xml_string)
+        root = xml_to_intermediate.representation
+        self.assertIsInstance(root, dict)
+        self.assertIn('element_name', root)
+        self.assertEqual(root['element_name'],
+            'root')
+        self.assertNotIn('text', root)
+        self.assertNotIn('attributes', root)
+        self.assertIn('children', root)
+        root_children = xml_to_intermediate.representation['children']
+        root_total_children = 3
+        self.assertEqual(len(root_children), root_total_children)
+        a_child = root_children[0]
+        self.assertEqual(a_child['element_name'], 'a_child')
+        self.assertEqual(a_child['text'], 'Some random text.')
+        z_child = root_children[2]
+        self.assertIn('attributes', z_child)
+        z_child_total_attributes = 2
+        self.assertEqual(z_child['attributes'], z_child_total_attributes)
+
 if __name__ == '__main__':
     unittest.main()
 

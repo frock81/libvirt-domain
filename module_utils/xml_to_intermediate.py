@@ -9,18 +9,9 @@ class XmlToIntermediate:
     """
 
     def __init__(self, xml_string):
-        self.__xml_tree = etree.fromstring(xml_string)
-        # self.__parse_node(node=self.__xml_tree)
-
-    # def __parse_node(self, node, children_list=None):
-    #     element = self.__create_base_element(node=node)
-    #     self.__parse_text(node=node, element=element)
-    #     self.__parse_attributes(node=node, element=element)
-    #     self.__parse_children(node=node, parent_element=element)
-    #     if children_list is None:
-    #         self.__representation = element
-    #         return
-    #     children_list.append(element)
+        parser = etree.XMLParser(remove_blank_text=True)
+        xml_tree = etree.fromstring(xml_string, parser)
+        self.__representation = self.__create_node_representation(node=xml_tree)
 
     def __get_node_name(self, node):
         return node.tag
