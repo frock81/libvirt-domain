@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import unittest
+import copy
 
 from lxml import etree
 
@@ -65,8 +66,9 @@ class TestXmlToIntermediate(unittest.TestCase):
         self.assertEqual(attributes_sorted_list, self.ELEMENT_ATTRIBUTES)
 
     def test_add_attributes_to_element(self):
+        element = copy.deepcopy(self.ELEMENT)
         element = (self.xml_to_intermediate
-            ._XmlToIntermediate__add_attributes_to_element(element=self.ELEMENT,
+            ._XmlToIntermediate__add_attributes_to_element(element=element,
             attributes_list=self.ELEMENT_ATTRIBUTES))
         self.assertIsInstance(element, dict)
         self.assertIn('attributes', element)
@@ -83,7 +85,7 @@ class TestXmlToIntermediate(unittest.TestCase):
         self.assertEqual(node_text, self.NODE_TEXT)
 
     def test_add_text_to_element(self):
-        element = self.ELEMENT
+        element = copy.deepcopy(self.ELEMENT)
         (self.xml_to_intermediate._XmlToIntermediate__add_text_to_element(
             element=element, text=self.NODE_TEXT))
         self.assertIn('text', element)
@@ -97,6 +99,19 @@ class TestXmlToIntermediate(unittest.TestCase):
         self.assertIsInstance(node_children, list)
         self.assertEqual(len(node_children), 3)
         self.assertEqual(node_children[0].tag, 'child1')
+
+    def test_add_element_to_children_list(self):
+        element = copy.deepcopy(self.ELEMENT)
+        children_list = []
+        (self.xml_to_intermediate
+            ._XmlToIntermediate__add_element_to_children_list(
+            element=element, children_list=children_list))
+        self.assertEqual(len(children_list), 1)
+        self.assertEqual(children_list[0], element)
+
+    # def test_sort_children_list
+
+    # def test_add_children_list_to_parent_element
 
     # def test_child(self):
 
