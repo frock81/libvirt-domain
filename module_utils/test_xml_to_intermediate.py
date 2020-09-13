@@ -123,9 +123,15 @@ class TestXmlToIntermediate(unittest.TestCase):
         self.assertEqual(new_children_list[1]['element_name'], 'banana')
         self.assertEqual(new_children_list[2]['element_name'], 'orange')
 
-    # def test_add_children_list_to_parent_element
-
-    # def test_child(self):
+    def test_add_children_list_to_parent_element(self):
+        element = copy.deepcopy(self.ELEMENT)
+        children_list = [{'element_name': 'child1', 'text': 'Child text'}]
+        (self.xml_to_intermediate
+            ._XmlToIntermediate__add_children_list_to_parent_element(
+            parent_element=element, children_list=children_list))
+        self.assertIn('children', element)
+        self.assertEqual(len(element['children']), 1)
+        self.assertEqual(element['children'][0]['element_name'], 'child1')
 
     # def test_tree(self):
 
