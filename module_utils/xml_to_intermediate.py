@@ -51,11 +51,17 @@ class XmlToIntermediate:
         return sorted(attributes_list, key=lambda x: x['attribute_name'])
 
     def __add_attributes_to_element(self, element, attributes_list):
-        element['attributes'] = attributes_list
+        if attributes_list:
+            element['attributes'] = attributes_list
         return element
 
     def __get_node_text(self, node):
         return node.text
+
+    def __add_text_to_element(self, element, text):
+        if text:
+            element['text'] = text
+        return element
 
     def __parse_text(self, node, element):
         if node.text:

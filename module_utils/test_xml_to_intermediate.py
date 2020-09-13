@@ -75,6 +75,14 @@ class TestXmlToIntermediate(unittest.TestCase):
         self.assertIsInstance(node_text, str)
         self.assertEqual(node_text, self.NODE_TEXT)
 
+    def test_add_text_to_element(self):
+        element = self.ELEMENT
+        (self.xml_to_intermediate._XmlToIntermediate__add_text_to_element(
+            element=element, text=self.NODE_TEXT))
+        self.assertIn('text', element)
+        self.assertIsInstance(element['text'], str)
+        self.assertEqual(element['text'], self.NODE_TEXT)
+
     # def test_child(self):
 
     # def test_tree(self):
