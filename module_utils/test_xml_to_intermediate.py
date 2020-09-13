@@ -10,6 +10,7 @@ class TestXmlToIntermediate(unittest.TestCase):
 
     NODE_NAME = 'node_name'
     NODE_ATTRIBUTES = {'key1': 'value1', 'key2': 'value2', 'a_key': 'a_value'}
+    NODE_TEXT = 'Some random text.'
     ELEMENT = {'element_name': NODE_NAME}
     ELEMENT_ATTRIBUTES = [{
         'attribute_name': 'a_key',
@@ -65,6 +66,14 @@ class TestXmlToIntermediate(unittest.TestCase):
         self.assertIsInstance(element['attributes'], list)
         self.assertEqual(len(element['attributes']),
             len(self.ELEMENT_ATTRIBUTES))
+
+    def test_get_node_text(self):
+        node = etree.Element(self.NODE_NAME)
+        node.text = self.NODE_TEXT
+        node_text = (self.xml_to_intermediate
+            ._XmlToIntermediate__get_node_text(node=node))
+        self.assertIsInstance(node_text, str)
+        self.assertEqual(node_text, self.NODE_TEXT)
 
     # def test_child(self):
 
