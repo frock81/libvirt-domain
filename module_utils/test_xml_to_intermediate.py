@@ -10,6 +10,16 @@ class TestXmlToIntermediate(unittest.TestCase):
 
     NODE_NAME = 'node_name'
     NODE_ATTRIBUTES = {'key1': 'value1', 'key2': 'value2', 'a_key': 'a_value'}
+    ELEMENT_ATTRIBUTES = [{
+        'attribute_name': 'a_key',
+        'attribute_value': 'a_value'
+    },{
+        'attribute_name': 'key1',
+        'attribute_value': 'value1'
+    },{
+        'attribute_name': 'key2',
+        'attribute_value': 'value2'
+    }]
 
     @classmethod
     def setUpClass(cls):
@@ -36,21 +46,16 @@ class TestXmlToIntermediate(unittest.TestCase):
         self.assertEqual(self.NODE_ATTRIBUTES, node_attributes_gotten)
 
     def test_parse_attributes_dictionary(self):
-        self.NODE_NAME = 'domain'
         attributes_sorted_list = (self.xml_to_intermediate
             ._XmlToIntermediate__parse_attributes_dictionary(
             attributes_dictionary=self.NODE_ATTRIBUTES))
         self.assertIsInstance(attributes_sorted_list, list)
         self.assertEqual(len(attributes_sorted_list), len(self.NODE_ATTRIBUTES))
         self.assertIsInstance(attributes_sorted_list[0], dict)
-        self.assertEqual(attributes_sorted_list[0]['attribute_name'], 'a_key')
-        self.assertEqual(attributes_sorted_list[1]['attribute_name'], 'key1')
-        self.assertEqual(attributes_sorted_list[2]['attribute_name'], 'key2')
-        self.assertEqual(attributes_sorted_list[0]['attribute_value'], 'a_value')
-        self.assertEqual(attributes_sorted_list[1]['attribute_value'], 'value1')
-        self.assertEqual(attributes_sorted_list[2]['attribute_value'], 'value2')
+        self.assertEqual(attributes_sorted_list, self.ELEMENT_ATTRIBUTES)
 
-    # def test_test(self):
+    def test_add_attributes_to_element(self):
+        pass
 
     # def test_child(self):
 
