@@ -195,7 +195,7 @@ class TestXmlToIntermediate(unittest.TestCase):
         z_child = root_children[2]
         self.assertIn('attributes', z_child)
         z_child_total_attributes = 2
-        self.assertEqual(z_child['attributes'], z_child_total_attributes)
+        self.assertEqual(len(z_child['attributes']), z_child_total_attributes)
 
 if __name__ == '__main__':
     unittest.main()
