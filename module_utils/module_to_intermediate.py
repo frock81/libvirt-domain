@@ -15,14 +15,14 @@ class ModuleToIntermediate:
         """Class constructor"""
         self.libvirt_domain_module = libvirt_domain_module
         self.__parse_domain_element()
-        self.parse_name()
-        self.parse_uuid()
-        self.parse_title()
-        self.parse_description()
-        self.parse_vcpu()
-        self.parse_memory()
         self.parse_current_memory()
+        self.parse_description()
+        self.parse_memory()
+        self.parse_name()
         self.parse_os_type()
+        self.parse_title()
+        self.parse_uuid()
+        self.parse_vcpu()
 
     def __parse_domain_element(self):
         self.__representation = {
