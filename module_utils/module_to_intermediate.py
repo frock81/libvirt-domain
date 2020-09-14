@@ -15,7 +15,7 @@ class ModuleToIntermediate:
         """Class constructor"""
         self.libvirt_domain_module = libvirt_domain_module
         self.__parse_domain_element()
-        self.parse_domain_name()
+        self.parse_name()
         self.parse_uuid()
         self.parse_title()
         self.parse_description()
@@ -35,7 +35,7 @@ class ModuleToIntermediate:
             'children': []
         }
 
-    def parse_domain_name(self):
+    def parse_name(self):
         self.__representation['children'].append({
             'element_name': 'name',
             'text': self.libvirt_domain_module.params['name']
