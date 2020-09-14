@@ -196,6 +196,15 @@ class TestXmlToIntermediate(unittest.TestCase):
         self.assertIn('attributes', z_child)
         z_child_total_attributes = 2
         self.assertEqual(len(z_child['attributes']), z_child_total_attributes)
+        self.assertIn('attribute_name', z_child['attributes'][0])
+        self.assertEqual(z_child['attributes'][0]['attribute_name'], 'a_attrib')
+        nested_children = root_children[1]
+        self.assertNotIn('text', nested_children)
+        self.assertNotIn('attributes', nested_children)
+        self.assertIn('children', nested_children)
+        nested_children_total_children = 3
+        self.assertEqual(len(nested_children['children']),
+            nested_children_total_children)
 
 if __name__ == '__main__':
     unittest.main()
