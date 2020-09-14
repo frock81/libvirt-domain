@@ -1,2 +1,3 @@
 Convert memories to KiB
 Create virtual machine environment for testing
+Update docstring in classes
