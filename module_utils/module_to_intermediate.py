@@ -2,10 +2,6 @@ import uuid
 
 class ModuleToIntermediate:
     """Convert libvirt_domain module to an intermediate representation
-
-    I'm worried if the order will affect any intermediate representation
-    comparison. I guess it will. Perhaps it would be best to use a set
-    instead of a list and, perhaps, an ordered dict.
     """
 
     # Copied and adapted from core.py

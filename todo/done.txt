@@ -1,1 +1,2 @@
 x 2020-09-14 Sort in module_to_intermediate
+x 2020-09-16 Compare a module to a domain XML

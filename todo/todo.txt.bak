@@ -1,2 +1,5 @@
-x 2020-09-14 Sort in module_to_intermediate
 Convert memories to KiB
+Create virtual machine environment for testing
+Update docstring in classes
+x 2020-09-16 Compare a module to a domain XML
+Document filter spec
