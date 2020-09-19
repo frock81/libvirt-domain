@@ -112,5 +112,8 @@ class TestMemoryNormalizer(unittest.TestCase):
         self.assertIsNotNone(unit_value)
         self.assertEqual(unit_value, 'GiB')
 
+    def test_convert_to_byte(self):
+        pass
+
 if __name__ == '__main__':
     unittest.main()
