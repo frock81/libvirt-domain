@@ -76,7 +76,8 @@ class TestMemoryNormalizer(unittest.TestCase):
         method = getattr(self.memory_normalizer, '_get_attribute_from_element',
             None)
         self.assertIsNotNone(method)
-        self.assertTrue(self.memory_normalizer, '._get_attribute_from_element()')
+        self.assertTrue(self.memory_normalizer,
+            '._get_attribute_from_element()')
         attribute_name = 'unit'
         attribute_value = 'GiB'
         attribute = self.memory_normalizer._get_attribute_from_element(
@@ -86,6 +87,30 @@ class TestMemoryNormalizer(unittest.TestCase):
         self.assertEqual(attribute['attribute_name'], attribute_name)
         self.assertIn('attribute_value', attribute)
         self.assertEqual(attribute['attribute_value'], attribute_value)
+
+    def test_get_memory_value(self):
+        method = getattr(self.memory_normalizer, '_get_memory_value',
+            None)
+        self.assertIsNotNone(method)
+        element = {
+            'element_name': 'memory',
+            'text': '1',
+            'attributes': [{'attribute_name': 'unit', 'attribute_value': 'GiB'}]
+        }
+        memory_value = self.memory_normalizer._get_memory_value(memory_element=
+            element)
+        self.assertIsNotNone(memory_value)
+        self.assertEqual(memory_value, '1')
+
+    def test_get_memory_unit(self):
+        method = getattr(self.memory_normalizer, '_get_memory_unit',
+            None)
+        self.assertIsNotNone(method)
+        unit_attribute = {'attribute_name': 'unit', 'attribute_value': 'GiB'}
+        unit_value = self.memory_normalizer._get_memory_unit(unit_attribute=
+            unit_attribute)
+        self.assertIsNotNone(unit_value)
+        self.assertEqual(unit_value, 'GiB')
 
 if __name__ == '__main__':
     unittest.main()

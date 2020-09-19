@@ -28,6 +28,16 @@ class MemoryNormalizer():
                 return None
         return None
 
+    def _get_memory_value(self, memory_element):
+        if 'text' in memory_element:
+            return memory_element['text']
+        return None
+
+    def _get_memory_unit(self, unit_attribute):
+        if 'attribute_value' in unit_attribute:
+            return unit_attribute['attribute_value']
+        return None
+
     @property
     def normalized(self):
         return self._normalized
