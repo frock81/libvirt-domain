@@ -112,8 +112,37 @@ class TestMemoryNormalizer(unittest.TestCase):
         self.assertIsNotNone(unit_value)
         self.assertEqual(unit_value, 'GiB')
 
-    def test_convert_to_byte(self):
-        pass
+    def test_convert_to_kibibyte(self):
+        method = getattr(self.memory_normalizer, '_convert_to_kibibyte',
+            None)
+        self.assertIsNotNone(method)
+        self._test_kibibyte_conversion(value=1, unit='b', expected=1)
+        self._test_kibibyte_conversion(value=1, unit='B', expected=1)
+        self._test_kibibyte_conversion(value=1, unit='KiB', expected=1)
+        self._test_kibibyte_conversion(value=1, unit='k', expected=1)
+        self._test_kibibyte_conversion(value=1, unit='K', expected=1)
+        self._test_kibibyte_conversion(value=1, unit='KB', expected=1)
+        self._test_kibibyte_conversion(value=1, unit='kb', expected=1)
+        self._test_kibibyte_conversion(value=1000, unit='kb', expected=977)
+        self._test_kibibyte_conversion(value=1, unit='MiB', expected=1024)
+        self._test_kibibyte_conversion(value=1, unit='m', expected=1024)
+        self._test_kibibyte_conversion(value=1, unit='M', expected=1024)
+        self._test_kibibyte_conversion(value=1, unit='MB', expected=977)
+        self._test_kibibyte_conversion(value=1, unit='mb', expected=977)
+        self._test_kibibyte_conversion(value=1, unit='GiB', expected=1048576)
+        self._test_kibibyte_conversion(value=1, unit='g', expected=1048576)
+        self._test_kibibyte_conversion(value=1, unit='G', expected=1048576)
+        self._test_kibibyte_conversion(value=1, unit='GB', expected=976563)
+        self._test_kibibyte_conversion(value=1, unit='gb', expected=976563)
+        self._test_kibibyte_conversion(value=1, unit='TiB', expected=1073741824)
+        self._test_kibibyte_conversion(value=1, unit='t', expected=1073741824)
+        self._test_kibibyte_conversion(value=1, unit='T', expected=1073741824)
+        self._test_kibibyte_conversion(value=1, unit='TB', expected=976562500)
+        self._test_kibibyte_conversion(value=1, unit='tb', expected=976562500)
+
+    def _test_kibibyte_conversion(self, value, unit, expected):
+        result = self.memory_normalizer._convert_to_kibibyte(value=value, unit=unit)
+        self.assertEqual(result, expected)
 
 if __name__ == '__main__':
     unittest.main()

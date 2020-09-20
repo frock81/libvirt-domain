@@ -1,3 +1,5 @@
+import math
+
 class MemoryNormalizer():
     """Normalizer memory in an intermediate representation"""
     def __init__(self, intermediate):
@@ -37,6 +39,39 @@ class MemoryNormalizer():
         if 'attribute_value' in unit_attribute:
             return unit_attribute['attribute_value']
         return None
+
+    def _convert_to_kibibyte(self, value, unit):
+        """Conver to kibibyte
+
+        As Libvirt may round up kibibytes, so will this.
+
+        Args:
+            value (int): The value to be converted
+            unit (str): The unit for the value. Allowed values are:
+                b|B for bytes, KB|kb for 1000 bytes, KiB|K|k for 1024
+                bytes, MB|mb, MiB|M|m, GB|gb, GiB|G|g, TB|tb, TiB|T|t
+        Returns:
+            int: kibibyte value rounded up.
+        """
+        if unit.upper() == 'B':
+            return int(math.ceil(value/1024))
+        if unit.upper() == 'KIB' or unit.upper() == 'K':
+            return value
+        if unit.upper() == 'KB':
+            return int(math.ceil((value*1000)/1024))
+        if unit.upper() == 'MIB' or unit.upper() == 'M':
+            return value*1024
+        if unit.upper() == 'MB':
+            return int(math.ceil((value*1000*1000)/1024))
+        if unit.upper() == 'GIB' or unit.upper() == 'G':
+            return value*1024*1024
+        if unit.upper() == 'GB':
+            return int(math.ceil((value*1000*1000*1000)/1024))
+        if unit.upper() == 'TIB' or unit.upper() == 'T':
+            return value*1024*1024*1024
+        if unit.upper() == 'TB':
+            return int(math.ceil((value*1000*1000*1000*1000)/1024))
+        raise Exception('Unit now allowed: {0}'.format(unit))
 
     @property
     def normalized(self):
