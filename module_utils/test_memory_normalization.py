@@ -164,10 +164,14 @@ class TestMemoryNormalizer(unittest.TestCase):
         self.assertIn('text', element)
         self.assertEqual(element['text'], str(1*1024*1024))
 
-    # def test_intermediate_normalized(self):
-    #     memory_element = next(filter(lambda x: x['element_name'] == 'memory',
-    #         self.memory_normalizer.normalized['children']))
-    #     self.assertEqual(memory_element['text'], 1*1024*1024)
+    def test_intermediate_normalized(self):
+        memory_element = next(filter(lambda x: x['element_name'] == 'memory',
+            self.memory_normalizer.normalized['children']))
+        self.assertEqual(memory_element['text'], str(1*1024*1024))
+        self.assertIn('attributes', memory_element)
+        unit_attribute = next(filter(lambda x: x['attribute_name'] == 'unit',
+            memory_element['attributes']))
+        self.assertEqual(unit_attribute['attribute_value'], 'KiB')
 
 if __name__ == '__main__':
     unittest.main()
