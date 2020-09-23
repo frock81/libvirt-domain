@@ -67,6 +67,19 @@ class TestMemoryNormalizer(unittest.TestCase):
         self.assertIn('attributes', memory_element)
         self.assertIsInstance(memory_element['attributes'], list)
 
+    def test_get_current_memory_element(self):
+        method = getattr(self.memory_normalizer, '_get_current_memory_element',
+            None)
+        self.assertIsNotNone(method)
+        current_memory_element = (self.memory_normalizer
+            ._get_current_memory_element(intermediate=self.INTERMEDIATE))
+        self.assertIsInstance(current_memory_element, dict)
+        self.assertIn('element_name', current_memory_element)
+        self.assertEqual(current_memory_element['element_name'],
+            'currentMemory')
+        self.assertIn('attributes', current_memory_element)
+        self.assertIsInstance(current_memory_element['attributes'], list)
+
     def test_get_attribute_from_element(self):
         element = {
             'element_name': 'memory',
@@ -164,13 +177,22 @@ class TestMemoryNormalizer(unittest.TestCase):
         self.assertIn('text', element)
         self.assertEqual(element['text'], str(1*1024*1024))
 
-    def test_intermediate_normalized(self):
+    def test_memory_normalized(self):
         memory_element = next(filter(lambda x: x['element_name'] == 'memory',
             self.memory_normalizer.normalized['children']))
         self.assertEqual(memory_element['text'], str(1*1024*1024))
         self.assertIn('attributes', memory_element)
         unit_attribute = next(filter(lambda x: x['attribute_name'] == 'unit',
             memory_element['attributes']))
+        self.assertEqual(unit_attribute['attribute_value'], 'KiB')
+
+    def test_current_memory_normalized(self):
+        current_memory_element = next(filter(lambda x: x['element_name'] == 
+            'currentMemory', self.memory_normalizer.normalized['children']))
+        self.assertEqual(current_memory_element['text'], str(512*1024))
+        self.assertIn('attributes', current_memory_element)
+        unit_attribute = next(filter(lambda x: x['attribute_name'] == 'unit',
+            current_memory_element['attributes']))
         self.assertEqual(unit_attribute['attribute_value'], 'KiB')
 
 if __name__ == '__main__':

@@ -12,7 +12,10 @@ class MemoryNormalizer():
 
     def _normalize(self, intermediate):
         memory_element = self._get_memory_element(intermediate=intermediate)
+        current_memory_element = self._get_current_memory_element(
+            intermediate=intermediate)
         self._normalize_element(element=memory_element)
+        self._normalize_element(element=current_memory_element)
         self._normalized = intermediate
 
     def _normalize_element(self, element):
@@ -32,6 +35,10 @@ class MemoryNormalizer():
     def _get_memory_element(self, intermediate):
         return self._get_element_from_list(element_list=
             intermediate['children'], element_name='memory')
+
+    def _get_current_memory_element(self, intermediate):
+        return self._get_element_from_list(element_list=
+            intermediate['children'], element_name='currentMemory')
 
     def _get_element_from_list(self, element_list, element_name):
         try:
