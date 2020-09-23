@@ -1,13 +1,32 @@
 import math
 
 class MemoryNormalizer():
-    """Normalizer memory in an intermediate representation"""
+    """Normalizer memory in an intermediate representation
+
+    Attributes:
+        normalized (dict): the intermediate representation with the
+            memory entries normalized to KiB.
+    """
     def __init__(self, intermediate):
         self._normalize(intermediate=intermediate)
 
     def _normalize(self, intermediate):
         memory_element = self._get_memory_element(intermediate=intermediate)
         self._normalized = intermediate
+
+    def _normalize_element(self, element):
+        """Receives an element and normalizes its memory"""
+        if 'attributes' in element:
+            for attribute in element['attributes']:
+                if attribute['attribute_name'] == 'unit':
+                    element['text'] = str(self._convert_to_kibibyte(
+                        value=int(element['text']),
+                        unit=attribute['attribute_value'])
+                    )
+                    attribute['attribute_value'] = 'KiB'
+                    return element
+        raise Exception('Element has {0} no attributes key'.format(
+            element['element_name']))
 
     def _get_memory_element(self, intermediate):
         return self._get_element_from_list(element_list=

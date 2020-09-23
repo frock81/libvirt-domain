@@ -144,5 +144,30 @@ class TestMemoryNormalizer(unittest.TestCase):
         result = self.memory_normalizer._convert_to_kibibyte(value=value, unit=unit)
         self.assertEqual(result, expected)
 
+    def test_normalize_element(self):
+        method = getattr(self.memory_normalizer, '_normalize_element',
+            None)
+        self.assertIsNotNone(method)
+        element = {
+            'element_name': 'memory',
+            'text': '1',
+            'attributes': [{
+                'attribute_name': 'unit',
+                'attribute_value': 'GiB'
+            }]
+        }
+        element = self.memory_normalizer._normalize_element(element=element)
+        element_attributes = element['attributes']
+        unit_attribute = element_attributes[0]
+        self.assertIn('attribute_value', unit_attribute)
+        self.assertEqual(unit_attribute['attribute_value'], 'KiB')
+        self.assertIn('text', element)
+        self.assertEqual(element['text'], str(1*1024*1024))
+
+    # def test_is_memory_normalized(self):
+    #     memory_element = next(filter(lambda x: x['element_name'] == 'memory',
+    #         self.memory_normalizer.normalized['children']))
+    #     self.assertEqual(memory_element['text'], 1*1024*1024)
+
 if __name__ == '__main__':
     unittest.main()
