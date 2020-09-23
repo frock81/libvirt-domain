@@ -12,21 +12,22 @@ class MemoryNormalizer():
 
     def _normalize(self, intermediate):
         memory_element = self._get_memory_element(intermediate=intermediate)
+        self._normalize_element(element=memory_element)
         self._normalized = intermediate
 
     def _normalize_element(self, element):
         """Receives an element and normalizes its memory"""
-        if 'attributes' in element:
-            for attribute in element['attributes']:
-                if attribute['attribute_name'] == 'unit':
-                    element['text'] = str(self._convert_to_kibibyte(
-                        value=int(element['text']),
-                        unit=attribute['attribute_value'])
-                    )
-                    attribute['attribute_value'] = 'KiB'
-                    return element
-        raise Exception('Element has {0} no attributes key'.format(
-            element['element_name']))
+        old_memory_value = self._get_memory_value(memory_element=element)
+        unit_attribute = self._get_attribute_from_element(element=element,
+            attribute_name='unit')
+        unit_value = self._get_memory_unit(unit_attribute=unit_attribute)
+        new_memory_value = self._convert_to_kibibyte(
+            value=old_memory_value,
+            unit=unit_value)
+        self._set_memory_value(memory_element=element,
+            value=new_memory_value)
+        self._set_memory_unit(unit_attribute=unit_attribute, value='KiB')
+        return element
 
     def _get_memory_element(self, intermediate):
         return self._get_element_from_list(element_list=
@@ -50,14 +51,38 @@ class MemoryNormalizer():
         return None
 
     def _get_memory_value(self, memory_element):
+        """Get the value of the memory from memory element
+
+        Args:
+            memory_element (dict): the memory element
+
+        Returns:
+            int: the memory value
+        """
         if 'text' in memory_element:
-            return memory_element['text']
+            return int(memory_element['text'])
         return None
+
+    def _set_memory_value(self, memory_element, value):
+        """Set the value of the memory in memory element
+
+        Args:
+            memory_element (dict): the memory element
+            value (int): the value for the memory
+
+        Returns:
+            dict: the memory elemnt
+        """
+        memory_element['text'] = str(value)
+        return memory_element
 
     def _get_memory_unit(self, unit_attribute):
         if 'attribute_value' in unit_attribute:
             return unit_attribute['attribute_value']
-        return None
+
+    def _set_memory_unit(self, unit_attribute, value):
+        unit_attribute['attribute_value'] = value
+        return unit_attribute
 
     def _convert_to_kibibyte(self, value, unit):
         """Conver to kibibyte

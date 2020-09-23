@@ -100,7 +100,7 @@ class TestMemoryNormalizer(unittest.TestCase):
         memory_value = self.memory_normalizer._get_memory_value(memory_element=
             element)
         self.assertIsNotNone(memory_value)
-        self.assertEqual(memory_value, '1')
+        self.assertEqual(memory_value, 1)
 
     def test_get_memory_unit(self):
         method = getattr(self.memory_normalizer, '_get_memory_unit',
@@ -164,7 +164,7 @@ class TestMemoryNormalizer(unittest.TestCase):
         self.assertIn('text', element)
         self.assertEqual(element['text'], str(1*1024*1024))
 
-    # def test_is_memory_normalized(self):
+    # def test_intermediate_normalized(self):
     #     memory_element = next(filter(lambda x: x['element_name'] == 'memory',
     #         self.memory_normalizer.normalized['children']))
     #     self.assertEqual(memory_element['text'], 1*1024*1024)
