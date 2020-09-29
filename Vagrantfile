@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 # The box to be used by Vagrant.
-VAGRANT_BOX = "ubuntu/focal64"
+VAGRANT_BOX = "ubuntu/bionic64"
 
 # Number of CPUs allocated to the virtual machine instances.
 VM_CPUS = 4

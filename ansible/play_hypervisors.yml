@@ -1,5 +1,5 @@
 ---
-- hosts: foo_servers
+- hosts: hypervisors
 #   pre_tasks:
 #     - name: install mysql role dependency packages
 #       apt:
