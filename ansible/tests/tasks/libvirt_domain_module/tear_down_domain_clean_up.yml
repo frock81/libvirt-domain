@@ -1,0 +1,12 @@
+---
+- name: remove vm-foo (clean-up)
+  block:
+    - name: destroy vm-foo
+      virt:
+        name: vm-foo
+        state: destroyed
+
+    - name: undefine vm-foo
+      virt:
+        name: vm-foo
+        command: undefine

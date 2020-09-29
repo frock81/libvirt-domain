@@ -1,0 +1,30 @@
+---
+- import_tasks: set_up_domain_unexistent.yml
+
+- name: create libvirt domain vm-foo
+  libvirt_domain:
+    name: vm-foo
+
+- name: register info command again
+  virt:
+    name: vm-foo
+    command: info
+  register: result_info
+
+- debug: var=result_info
+
+- name: register status command again
+  virt:
+    name: vm-foo
+    command: status
+  register: result_status
+
+- debug: var=result_status
+
+- name: check vm-foo is created
+  assert:
+    that:
+      - not result_status.failed
+      - "'vm-foo' in result_info"
+
+- import_tasks: tear_down_domain_clean_up.yml

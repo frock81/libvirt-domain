@@ -1,0 +1,12 @@
+- name: setup hypervisor
+  hosts: hv-1
+  any_errors_fatal: True
+  tasks:
+    - import_tasks: tasks/libvirt_domain_module/test_domain_creation.yml
+      tags: test_domain_creation
+
+    - import_tasks: tasks/libvirt_domain_module/test_domain_resources.yml
+      tags: test_domain_resources
+
+    - import_tasks: tasks/libvirt_domain_module/test_domain_resources_changes.yml
+      tags: test_domain_resources_changes

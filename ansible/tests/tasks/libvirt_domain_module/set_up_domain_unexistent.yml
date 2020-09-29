@@ -1,0 +1,22 @@
+---
+- name: register info command
+  virt:
+    name: vm-foo
+    command: info
+  register: result_info
+
+- debug: var=result_info
+
+- name: register status command
+  virt:
+    name: vm-foo
+    command: status
+  register: result_status
+  ignore_errors: yes
+
+- debug: var=result_status
+
+- import_tasks: tear_down_domain_clean_up.yml
+  when: "'msg' not in result_status
+    or 'vm-foo' in result_info
+    or result_status.msg != 'virtual machine vm-foo not found'"

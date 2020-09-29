@@ -1,0 +1,11 @@
+---
+- import_playbook: play_dev.yml
+  when: env  == 'dev'
+
+# - import_playbook: play_pre_verify.yml
+#   when: env  == 'dev'
+
+- import_playbook: play_hypervisors.yml
+
+# - import_playbook: play_post_verify.yml
+#   when: env  == 'dev'

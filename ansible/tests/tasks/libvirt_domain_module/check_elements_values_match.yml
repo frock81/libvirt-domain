@@ -1,0 +1,11 @@
+---
+- name: get {{ item.name }} using shell command
+  shell: virsh dumpxml vm-foo | grep -oPm1 "(?<=<{{ item.name }}>)[^<]+"
+  register: result_shell
+
+- debug: var=result_shell
+
+- name: assert that {{ item.name }} match
+  assert:
+    that:
+      - result_shell.stdout == '{{ item.value }}'

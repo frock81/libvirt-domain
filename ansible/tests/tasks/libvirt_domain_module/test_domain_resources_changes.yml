@@ -1,0 +1,81 @@
+---
+- import_tasks: set_up_domain_unexistent.yml
+
+- name: create a domain with default resources
+  libvirt_domain:
+    name: vm-foo
+
+- name: register info command
+  virt:
+    name: vm-foo
+    command: info
+  register: result_info
+
+- debug: var=result_info
+
+- name: register status command
+  virt:
+    name: vm-foo
+    command: status
+  register: result_status
+
+- debug: var=result_status
+
+- name: check vm-foo is created
+  assert:
+    that:
+      - not result_status.failed
+      - "'vm-foo' in result_info"
+
+- name: check default max memory
+  assert:
+    that:
+      - "result_info['vm-foo'].maxMem == '{{ 512*1024 }}'"
+
+- name: check default current memory
+  assert:
+    that:
+      - "result_info['vm-foo'].memory == '{{ 512*1024 }}'"
+
+- name: check default current vcpu
+  assert:
+    that:
+      - "result_info['vm-foo'].nrVirtCpu == 1"
+
+- name: register vcpu max via shell command
+  shell: virsh vcpucount vm-foo | grep maximum |awk '{print $3}'
+  register: result_vcpu_max
+
+- debug: var=result_vcpu_max
+
+- name: check default max vcpu
+  assert:
+    that:
+      - result_vcpu_max.stdout == '1'
+
+- name: create a machine with a different max vcpus
+  libvirt_domain:
+    name: vm-foo
+    resources:
+      # uuid: b2d7458a-27f0-46ed-9b21-fe566b065942
+      # title: domain short description
+      # description: Some human readable description.
+      # vcpus_current: 2
+      vcpus_max: 3
+      # memory_max: 2
+      # memory_max_unit: GiB
+      # memory_current: 768
+      # memory_current_unit: MiB
+
+- name: register vcpu max via shell command
+  shell: virsh vcpucount vm-foo | grep maximum |awk '{print $3}'
+  register: result_vcpu_max
+
+- debug: var=result_vcpu_max
+
+- name: check default max vcpu
+  assert:
+    that:
+      - result_vcpu_max.stdout == '3'
+
+- import_tasks: tear_down_domain_clean_up.yml
